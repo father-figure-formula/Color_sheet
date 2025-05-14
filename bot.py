@@ -9,6 +9,7 @@ import io
 import random
 import requests
 from dotenv import load_dotenv
+from telegram.error import TelegramError
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -126,6 +127,10 @@ async def handle_submission(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logger.error(f"Error in handle_submission: {str(e)}")
         await update.message.reply_text("Sorry, something went wrong while processing your submission. Please try again later.")
 
+async def error_handler(update, context):
+    logger.error(msg="Exception while handling an update:", exc_info=context.error)
+    # Optionally, notify the user
+
 def main():
     try:
         # Create application
@@ -136,9 +141,16 @@ def main():
         application.add_handler(MessageHandler(filters.PHOTO, handle_submission))
         application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_prompt))
 
+        # Add error handler
+        application.add_error_handler(error_handler)
+
         # Start the bot
         logger.info("Starting bot...")
-        application.run_polling()
+        application.run_webhook(
+            listen="0.0.0.0",
+            port=int(os.environ.get("PORT", 8443)),
+            webhook_url=f"https://color-sheet.onrender.com/webhook/{BOT_TOKEN}"
+        )
     except Exception as e:
         logger.error(f"Bot stopped due to error: {str(e)}")
     finally:
