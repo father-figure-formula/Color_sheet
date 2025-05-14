@@ -2,3 +2,4 @@ telethon
 openai 
 supabase 
 python-dotenv 
+python-telegram-bot 
