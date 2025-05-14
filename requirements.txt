@@ -1,7 +1,7 @@
 telethon 
 supabase 
 python-dotenv 
-python-telegram-bot 
+python-telegram-bot[webhooks]>=20.0 
 Pillow
 requests
 openai==0.28
