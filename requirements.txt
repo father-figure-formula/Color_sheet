@@ -1,7 +1,7 @@
 telethon 
-openai 
 supabase 
 python-dotenv 
 python-telegram-bot 
 Pillow
 requests
+openai==0.28

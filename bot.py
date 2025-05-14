@@ -55,13 +55,13 @@ async def handle_prompt(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         # Generate image using DALL·E 3
         dalle_prompt = f"Black and white line art of: {prompt}, suitable for coloring book"
-        response = openai.Image.create(
-            model="dall-e-3",  # Specify DALL·E 3 model here
+        response = openai.images.generate(
+            model="dall-e-3",
             prompt=dalle_prompt,
             n=1,
-            size="1024x1024"  # Updated size to 1024x1024
+            size="1024x1024"
         )
-        image_url = response["data"][0]["url"]
+        image_url = response.data[0].url
 
         # Simulate rating for demo purposes (OpenAI does not rate images directly, so we simulate this)
         rating = random.randint(1, 10)  # Random rating (1-10)
