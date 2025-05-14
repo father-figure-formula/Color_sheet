@@ -3,3 +3,5 @@ openai
 supabase 
 python-dotenv 
 python-telegram-bot 
+Pillow
+requests
